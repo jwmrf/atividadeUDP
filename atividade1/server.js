@@ -9,8 +9,6 @@ server.on('message', function(msg, rinfo) {
 })
 
 server.on('listening',function(){
-    var port = address.port;
-    console.log('Servidor listado na porta ' + port);
 });
 
 server.bind(5000, function() {
