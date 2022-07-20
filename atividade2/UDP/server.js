@@ -7,7 +7,6 @@ var client = null
 let status = 0
 let numberLeft = 0
 let numberRight = 0
-let operation = ""
 server.on('message', function(msg, rinfo) {
     data = JSON.parse(msg)
     if (data.type == "connect") {
@@ -30,7 +29,7 @@ server.on('message', function(msg, rinfo) {
                     numberRight =  parseFloat(data.message)
                     if (!numberRight) throw new console.error("");
                     status ++
-                    server.send(Buffer.from("Informe a operação EX: + ou % ou * ou -"), client.port, client.address)
+                    server.send(Buffer.from("Informe a operação EX: + ou / ou * ou -"), client.port, client.address)
                 }
             } catch (error) {
                 server.send(Buffer.from("Número inválido"), client.port, client.address)
@@ -47,8 +46,8 @@ server.on('message', function(msg, rinfo) {
                 case '*':
                     result = numberLeft * numberRight
                     break;
-                case '%':
-                    result = numberLeft % numberRight
+                case '/':
+                    result = numberLeft / numberRight
                     break;
                     
             }
@@ -60,16 +59,10 @@ server.on('message', function(msg, rinfo) {
             } else {
                 server.send(Buffer.from(`Operação inválida`), client.port, client.address)
             }
-
         }
-
     }
-    //console.log(data)
-    //console.log(`Cliente: ${data.message}`)
-
     client_port = rinfo.port
 })
-
 
 server.bind(5000, function() {
     const rl = readline.createInterface({
